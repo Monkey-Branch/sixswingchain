@@ -47,6 +47,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a set-owner tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "newOwner"}},
 				},
+				{
+					RpcMethod:      "Burn",
+					Use:            "burn [owner] [amount]",
+					Short:          "Send a burn tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "owner"}, {ProtoField: "amount"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

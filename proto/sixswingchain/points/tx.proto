@@ -19,6 +19,7 @@ service Msg {
   rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
   rpc Mint         (MsgMint        ) returns (MsgMintResponse        );
   rpc SetOwner     (MsgSetOwner    ) returns (MsgSetOwnerResponse    );
+  rpc Burn         (MsgBurn        ) returns (MsgBurnResponse        );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -54,4 +55,13 @@ message MsgSetOwner {
 }
 
 message MsgSetOwnerResponse {}
+
+message MsgBurn {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string owner   = 2;
+  int32  amount  = 3;
+}
+
+message MsgBurnResponse {}
 
