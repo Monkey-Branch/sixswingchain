@@ -1,13 +1,14 @@
 version: 1
 validation: sovereign
 accounts: 
+- name: admin
+  coins:
+  - 200000000stake
 - name: alice
   coins:
-  - 20000token
   - 200000000stake
 - name: bob
   coins:
-  - 10000token
   - 100000000stake
 client:
   openapi:
@@ -15,14 +16,7 @@ client:
 faucet:
   name: bob
   coins:
-  - 5token
   - 100000stake
 validators:
 - name: alice
   bonded: 100000000stake
-- name: validator1
-  bonded: 100000000stake
-- name: validator2
-  bonded: 200000000stake
-- name: validator3
-  bonded: 300000000stake

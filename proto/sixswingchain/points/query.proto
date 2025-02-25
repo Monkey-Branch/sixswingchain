@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package sixswingchain.points;
 
 import "amino/amino.proto";
@@ -11,20 +12,34 @@ option go_package = "sixswingchain/x/points/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/sixswingchain/points/params";
+  
+  }
+  
+  // Queries a list of GetOwnerRequest items.
+  rpc GetOwnerRequest (QueryGetOwnerRequestRequest) returns (QueryGetOwnerRequestResponse) {
+    option (google.api.http).get = "/sixswingchain/points/get_owner_request/{name}";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
+
+message QueryGetOwnerRequestRequest {
+  string name = 1;
+}
+
+message QueryGetOwnerRequestResponse {
+  string owner = 1;
+}
+
