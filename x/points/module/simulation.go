@@ -27,6 +27,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgMint int = 100
 
+	opWeightMsgSetOwner = "op_weight_msg_set_owner"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgSetOwner int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -61,6 +65,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		pointssimulation.SimulateMsgMint(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgSetOwner int
+	simState.AppParams.GetOrGenerate(opWeightMsgSetOwner, &weightMsgSetOwner, nil,
+		func(_ *rand.Rand) {
+			weightMsgSetOwner = defaultWeightMsgSetOwner
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgSetOwner,
+		pointssimulation.SimulateMsgSetOwner(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -74,6 +89,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgMint,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				pointssimulation.SimulateMsgMint(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgSetOwner,
+			defaultWeightMsgSetOwner,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				pointssimulation.SimulateMsgSetOwner(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),
