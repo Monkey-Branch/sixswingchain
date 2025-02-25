@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             (unknown)
-// source: sixswingchain/points/query.proto
+// source: sixswingchain/tokenfactory/query.proto
 
-package points
+package tokenfactory
 
 import (
 	context "context"
@@ -20,8 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName          = "/sixswingchain.points.Query/Params"
-	Query_GetOwnerRequest_FullMethodName = "/sixswingchain.points.Query/GetOwnerRequest"
+	Query_Params_FullMethodName = "/sixswingchain.tokenfactory.Query/Params"
 )
 
 // QueryClient is the client API for Query service.
@@ -30,8 +29,6 @@ const (
 type QueryClient interface {
 	// Parameters queries the parameters of the module.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
-	// Queries a list of GetOwnerRequest items.
-	GetOwnerRequest(ctx context.Context, in *QueryGetOwnerRequestRequest, opts ...grpc.CallOption) (*QueryGetOwnerRequestResponse, error)
 }
 
 type queryClient struct {
@@ -51,23 +48,12 @@ func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts .
 	return out, nil
 }
 
-func (c *queryClient) GetOwnerRequest(ctx context.Context, in *QueryGetOwnerRequestRequest, opts ...grpc.CallOption) (*QueryGetOwnerRequestResponse, error) {
-	out := new(QueryGetOwnerRequestResponse)
-	err := c.cc.Invoke(ctx, Query_GetOwnerRequest_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
-	// Queries a list of GetOwnerRequest items.
-	GetOwnerRequest(context.Context, *QueryGetOwnerRequestRequest) (*QueryGetOwnerRequestResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -77,9 +63,6 @@ type UnimplementedQueryServer struct {
 
 func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Params not implemented")
-}
-func (UnimplementedQueryServer) GetOwnerRequest(context.Context, *QueryGetOwnerRequestRequest) (*QueryGetOwnerRequestResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOwnerRequest not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -112,40 +95,18 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_GetOwnerRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryGetOwnerRequestRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).GetOwnerRequest(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Query_GetOwnerRequest_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetOwnerRequest(ctx, req.(*QueryGetOwnerRequestRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Query_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "sixswingchain.points.Query",
+	ServiceName: "sixswingchain.tokenfactory.Query",
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Params",
 			Handler:    _Query_Params_Handler,
 		},
-		{
-			MethodName: "GetOwnerRequest",
-			Handler:    _Query_GetOwnerRequest_Handler,
-		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "sixswingchain/points/query.proto",
+	Metadata: "sixswingchain/tokenfactory/query.proto",
 }
