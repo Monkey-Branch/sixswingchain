@@ -1,0 +1,17 @@
+syntax = "proto3";
+package sixswingchain.points;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "sixswingchain/points/params.proto";
+
+option go_package = "sixswingchain/x/points/types";
+
+// GenesisState defines the points module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
