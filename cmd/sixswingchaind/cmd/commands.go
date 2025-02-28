@@ -44,6 +44,10 @@ func initRootCmd(
 
 	server.AddCommands(rootCmd, app.DefaultNodeHome, newApp, appExport, addModuleInitFlags)
 
+	rootCmd.AddCommand(
+		NewValidateGenesisCmd(txConfig, basicManager),
+	)
+
 	// add keybase, auxiliary RPC, query, genesis, and tx child commands
 	rootCmd.AddCommand(
 		server.StatusCommand(),
@@ -187,4 +191,18 @@ func appExport(
 	}
 
 	return bApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs, modulesToExport)
+}
+
+func NewValidateGenesisCmd(txConfig client.TxConfig, basicManager module.BasicManager) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "validate-genesis",
+		Short: "Validate genesis file",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			// Pega o comando de validação da biblioteca genutil e executa
+			validateCmd := genutilcli.ValidateGenesisCmd(basicManager)
+			return validateCmd.RunE(cmd, args)
+		},
+	}
+
+	return cmd
 }
