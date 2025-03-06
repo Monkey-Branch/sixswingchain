@@ -11,6 +11,7 @@ import (
 	"sixswingchain/cmd/sixswingchaind/cmd"
 )
 
+
 func main() {
 	rootCmd := cmd.NewRootCmd()
 	if err := svrcmd.Execute(rootCmd, clienthelpers.EnvPrefix, app.DefaultNodeHome); err != nil {
